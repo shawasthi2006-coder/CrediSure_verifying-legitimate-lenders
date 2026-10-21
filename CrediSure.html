@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CrediSure — Smart Loan Verification</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #06110f;
+    color: #f4f7f6;
+}
+
+/* APP CONTAINER */
+.app {
+    width: 390px;
+    min-height: 844px;
+    margin: 24px auto;
+    background: linear-gradient(
+        160deg,
+        #050807,
+        #073b35 72%,
+        #08786d
+    );
+    border: 1px solid #285e56;
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px #0009;
+}
+
+/* STATUS BAR */
+.status {
+    padding: 14px 22px 4px;
+    font-size: 12px;
+    color: #b8c9c5;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* HEADER */
+.header {
+    padding: 20px 24px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.logo span {
+    color: #8ee52c;
+}
+
+.shield {
+    width: 44px;
+    height: 44px;
+    border: 1px solid #8ee52c;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    color: #8ee52c;
+    font-size: 23px;
+}
+
+/* SCREENS */
+.screen {
+    display: none;
+    padding: 20px 24px 30px;
+}
+
+.screen.active {
+    display: block;
+}
+
+/* TEXT */
+h1 {
+    font-size: 31px;
+    line-height: 1.08;
+    margin: 18px 0 12px;
+}
+
+h2 {
+    font-size: 22px;
+    margin: 8px 0 10px;
+}
+
+p {
+    color: #bfd0cc;
+    line-height: 1.5;
+}
+
+/* HERO */
+.hero {
+    text-align: center;
+    padding: 34px 0 20px;
+}
+
+.bigshield {
+    font-size: 72px;
+    color: #8ee52c;
+    margin-bottom: 14px;
+}
+
+.tag {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid #477c72;
+    border-radius: 20px;
+    color: #a9e95e;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+/* CARDS */
+.card {
+    background: #071d1a99;
+    border: 1px solid #2d665e;
+    border-radius: 18px;
+    padding: 17px;
+    margin: 14px 0;
+}
+
+/* INPUT */
+.input {
+    width: 100%;
+    padding: 15px 14px;
+    margin-top: 7px;
+    background: #06110f;
+    border: 1px solid #47746d;
+    border-radius: 12px;
+    color: white;
+    font-size: 15px;
+    outline: none;
+}
+
+.input:focus {
+    border-color: #8ee52c;
+}
+
+/* BUTTONS */
+.btn {
+    width: 100%;
+    border: 0;
+    border-radius: 14px;
+    padding: 15px;
+    margin-top: 14px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    background: #8ee52c;
+    color: #06110f;
+}
+
+.btn.secondary {
+    background: transparent;
+    color: #d9e7e3;
+    border: 1px solid #507970;
+}
+
+.btn:active {
+    transform: scale(.99);
+}
+
+/* VERIFICATION STEPS */
+.steps {
+    display: grid;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 13px;
+    background: #061714aa;
+    border: 1px solid #25544e;
+}
+
+.dot {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #163f38;
+    color: #8ee52c;
+    font-weight: bold;
+}
+
+/* RESULT */
+.result {
+    text-align: center;
+    padding: 14px 0;
+}
+
+.score {
+    font-size: 64px;
+    font-weight: 800;
+    color: #8ee52c;
+    margin: 8px 0;
+}
+
+.low {
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 22px;
+    background: #163d26;
+    color: #a8ef62;
+    font-weight: bold;
+}
+
+.red {
+    color: #ff7777;
+}
+
+.yellow {
+    color: #ffd166;
+}
+
+.green {
+    color: #8ee52c;
+}
+
+/* SCORE BAR */
+.bar {
+    height: 10px;
+    background: #1b3531;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 14px 0 18px;
+}
+
+.bar i {
+    display: block;
+    height: 100%;
+    width: 82%;
+    background: #8ee52c;
+}
+
+/* CHECKLIST */
+.check {
+    padding: 9px 0;
+    border-bottom: 1px solid #20453f;
+    color: #dce8e5;
+}
+
+.check:last-child {
+    border: 0;
+}
+
+/* WARNING */
+.warning {
+    border-color: #a54b4b;
+    background: #32181888;
+}
+
+.warning h2 {
+    color: #ff7777;
+}
+
+/* BACK BUTTON */
+.back {
+    background: none;
+    border: 0;
+    color: #a9e95e;
+    padding: 0;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    padding: 10px 24px 18px;
+    color: #91aaa5;
+    font-size: 11px;
+}
+
+small {
+    color: #9db2ad;
+}
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+    <!-- STATUS BAR -->
+    <div class="status">
+        <span>9:41</span>
+        <span>● ● ●</span>
+    </div>
+
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div class="logo">
+            Credi<span>Sure</span>
+        </div>
+
+        <div class="shield">
+            ✓
+        </div>
+
+    </div>
+
+
+    <!-- ================= HOME SCREEN ================= -->
+
+    <section id="home" class="screen active">
+
+        <div class="hero">
+
+            <div class="bigshield">
+                🛡
+            </div>
+
+            <h1>
+                Verify Before<br>
+                You Borrow
+            </h1>
+
+            <p>
+                Check a lender, loan app or website
+                before sharing your money or
+                personal information.
+            </p>
+
+            <div class="tag">
+                SMART LOAN VERIFICATION
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <small>
+                What can you verify?
+            </small>
+
+            <p style="margin-bottom:0">
+
+                ✓ Lender identity &nbsp;
+                ✓ Credentials
+                <br>
+
+                ✓ Fees & payments &nbsp;
+                ✓ Permissions
+
+            </p>
+
+        </div>
+
+
+        <button
+            class="btn"
+            onclick="show('verify')">
+
+            VERIFY A LENDER
+
+        </button>
+
+    </section>
+
+
+    <!-- ================= VERIFY SCREEN ================= -->
+
+    <section id="verify" class="screen">
+
+        <button
+            class="back"
+            onclick="show('home')">
+
+            ← Back
+
+        </button>
+
+
+        <h1>
+            Enter Lender Details
+        </h1>
+
+
+        <p>
+            We'll check the available verification
+            and risk signals.
+        </p>
+
+
+        <div class="card">
+
+            <label>
+                <small>
+                    Lender / App / Website
+                </small>
+            </label>
+
+            <input
+                id="lender"
+                class="input"
+                value="QuickCash Finance"
+            >
+
+
+            <label>
+
+                <small
+                    style="display:block;margin-top:14px">
+
+                    Website (demo)
+
+                </small>
+
+            </label>
+
+            <input
+                class="input"
+                value="quickcash.example"
+            >
+
+        </div>
+
+
+        <button
+            class="btn"
+            onclick="startScan()">
+
+            START VERIFICATION
+
+        </button>
+
+
+        <button
+            class="btn secondary"
+            onclick="fillRisk()">
+
+            TRY HIGH-RISK EXAMPLE
+
+        </button>
+
+    </section>
+
+
+    <!-- ================= SCAN SCREEN ================= -->
+
+    <section id="scan" class="screen">
+
+        <div class="hero">
+
+            <div class="bigshield">
+                🔍
+            </div>
+
+            <h1>
+                Verifying Lender
+            </h1>
+
+            <p id="scanText">
+                Running checks...
+            </p>
+
+        </div>
+
+
+        <div class="steps">
+
+            <div class="step">
+
+                <div class="dot">
+                    1
+                </div>
+
+                <div>
+                    Identity & registration check
+                </div>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="dot">
+                    2
+                </div>
+
+                <div>
+                    Website & credential check
+                </div>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="dot">
+                    3
+                </div>
+
+                <div>
+                    Fees & payment risk analysis
+                </div>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="dot">
+                    4
+                </div>
+
+                <div>
+                    Permissions & privacy review
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= RESULT SCREEN ================= -->
+
+    <section id="result" class="screen">
+
+        <button
+            class="back"
+            onclick="show('verify')">
+
+            ← Check another lender
+
+        </button>
+
+
+        <div class="result">
+
+            <small>
+                VERIFICATION RESULT
+            </small>
+
+
+            <div
+                id="score"
+                class="score">
+
+                82
+
+            </div>
+
+
+            <div
+                id="risk"
+                class="low">
+
+                LOW RISK
+
+            </div>
+
+
+            <div class="bar">
+
+                <i id="bar"></i>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>
+                Why this score?
+            </h2>
+
+
+            <div class="check">
+
+                ✓ Registration details matched
+
+            </div>
+
+
+            <div class="check">
+
+                ✓ Transparent fee information
+
+            </div>
+
+
+            <div class="check">
+
+                ✓ No excessive permissions detected
+
+            </div>
+
+
+            <div class="check">
+
+                ✓ No suspicious upfront request
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="btn secondary"
+            onclick="show('alert')">
+
+            VIEW SAFETY ADVICE
+
+        </button>
+
+    </section>
+
+
+    <!-- ================= SAFETY SCREEN ================= -->
+
+    <section id="alert" class="screen">
+
+        <button
+            class="back"
+            onclick="show('result')">
+
+            ← Back
+
+        </button>
+
+
+        <div class="hero">
+
+            <div class="bigshield">
+                🔒
+            </div>
+
+            <h1>
+                Before You Share
+            </h1>
+
+            <p>
+                CrediSure helps you understand
+                the risk before you continue.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2 class="green">
+                ✓ What to do
+            </h2>
+
+            <p>
+                Verify the lender through trusted
+                sources and read the complete loan
+                terms before proceeding.
+            </p>
+
+        </div>
+
+
+        <div class="card warning">
+
+            <h2>
+                ⚠ Safety Reminder
+            </h2>
+
+            <p>
+                Never share OTPs, passwords or
+                unnecessary personal information
+                with a lender.
+            </p>
+
+        </div>
+
+
+        <button
+            class="btn"
+            onclick="show('home')">
+
+            DONE
+
+        </button>
+
+    </section>
+
+
+    <div class="footer">
+
+        Demo prototype • Verification results are illustrative
+
+    </div>
+
+</div>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+/* SCREEN NAVIGATION */
+
+function show(id) {
+
+    document
+        .querySelectorAll('.screen')
+        .forEach(screen => {
+
+            screen.classList.remove('active');
+
+        });
+
+
+    document
+        .getElementById(id)
+        .classList.add('active');
+
+
+    window.scrollTo(0, 0);
+}
+
+
+
+/* NORMAL VERIFICATION FLOW */
+
+function startScan() {
+
+    show('scan');
+
+
+    let t = 0;
+
+
+    const messages = [
+
+        'Checking lender identity...',
+
+        'Cross-checking registration...',
+
+        'Analyzing fees and payment requests...',
+
+        'Reviewing permissions...',
+
+        'Generating explainable Trust Score...'
+
+    ];
+
+
+    const text =
+        document.getElementById('scanText');
+
+
+    const timer = setInterval(() => {
+
+        text.textContent =
+            messages[t++] || messages[4];
+
+
+        if (t > 4) {
+
+            clearInterval(timer);
+
+
+            setTimeout(() => {
+
+                show('result');
+
+            }, 500);
+
+        }
+
+    }, 650);
+
+}
+
+
+
+/* HIGH-RISK DEMO */
+
+function fillRisk() {
+
+    document
+        .getElementById('lender')
+        .value = 'InstantLoan App';
+
+
+    show('scan');
+
+
+    document
+        .getElementById('scanText')
+        .textContent =
+        'Analyzing suspicious signals...';
+
+
+    setTimeout(() => {
+
+        show('result');
+
+
+        /* CHANGE SCORE */
+
+        document
+            .getElementById('score')
+            .textContent = '34';
+
+
+        /* CHANGE RISK */
+
+        const risk =
+            document.getElementById('risk');
+
+
+        risk.textContent = 'HIGH RISK';
+
+        risk.className = 'low red';
+
+
+        /* CHANGE BAR */
+
+        const bar =
+            document.getElementById('bar');
+
+
+        bar.style.width = '34%';
+
+        bar.style.background =
+            '#ff6666';
+
+
+        /* CHANGE EXPLANATION */
+
+        document
+            .querySelector(
+                '#result .card h2'
+            )
+            .textContent =
+            'Red flags detected';
+
+
+        document
+            .querySelectorAll(
+                '#result .check'
+            )[0]
+            .textContent =
+            '✕ Registration could not be verified';
+
+
+        document
+            .querySelectorAll(
+                '#result .check'
+            )[1]
+            .textContent =
+            '⚠ Upfront payment request detected';
+
+
+        document
+            .querySelectorAll(
+                '#result .check'
+            )[2]
+            .textContent =
+            '⚠ Excessive permissions requested';
+
+
+        document
+            .querySelectorAll(
+                '#result .check'
+            )[3]
+            .textContent =
+            '✕ Website credentials need verification';
+
+    }, 1600);
+
+}
+
+</script>
+
+</body>
+</html>
